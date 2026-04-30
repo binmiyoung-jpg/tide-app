@@ -105,87 +105,104 @@ html{scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
 /* 달력 그리드 */
 .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
 
+/* ── 달력 셀 ── */
 .cell{
   background:rgba(10,28,58,.82);
   border:1px solid rgba(100,160,220,.1);
-  border-radius:6px;padding:5px 4px;min-height:100px;
+  border-radius:6px;padding:5px 4px;min-height:76px;
   cursor:pointer;transition:.15s;overflow:hidden;position:relative;
   -webkit-user-select:none;user-select:none;
 }
-.cell:active{background:rgba(30,90,160,.5);transform:scale(0.97)}
-@media(max-width:480px){
-  .cell{min-height:90px;padding:4px 3px;border-radius:5px}
-  .dn{font-size:11px}
-  .lu{font-size:7.5px}
-  .tl{font-size:7.5px}
-  .fish-tag{font-size:6px;padding:0 2px}
-  .mt{font-size:7px}
-  .df{font-size:6.5px}
-}
-.cell:hover{background:rgba(30,90,160,.35);border-color:rgba(100,160,220,.38);transform:translateY(-1px)}
+.cell:active{background:rgba(30,90,160,.5);transform:scale(0.96)}
+.cell:hover{background:rgba(30,90,160,.3);border-color:rgba(100,160,220,.35)}
 .cell.emp{background:transparent;border:none;cursor:default;pointer-events:none}
 .cell.tod{border:1.5px solid #d4af37 !important;background:rgba(212,175,55,.12) !important}
 .cell.sel{border:2px solid #7bb8e8 !important;background:rgba(100,180,230,.18) !important}
-.cell.bt{background:rgba(25,110,190,.18);border-color:rgba(25,110,190,.42)}
-.cell.sr{background:rgba(200,60,40,.14);border-color:rgba(200,60,40,.42)}
-.cell.jg{background:rgba(210,130,0,.12);border-color:rgba(210,130,0,.38)}
+.cell.bt{background:rgba(25,110,190,.16);border-color:rgba(25,110,190,.4)}
+.cell.sr{background:rgba(200,60,40,.13);border-color:rgba(200,60,40,.4)}
+.cell.jg{background:rgba(210,130,0,.11);border-color:rgba(210,130,0,.35)}
+.cell.ban{border-color:rgba(180,0,0,.5) !important}
 
-.dn{font-size:12px;font-weight:700;margin-bottom:1px;line-height:1.2}
+/* 셀 내부 요소 */
+.dn{font-size:12px;font-weight:700;line-height:1.2;margin-bottom:1px}
 .cell.sun .dn{color:#e06060}.cell.sat .dn{color:#6090c0}
-.lu{font-size:8px;color:#4a7a9b;margin-bottom:2px}
-.tl{font-size:8px;padding:1px 4px;border-radius:8px;display:inline-block;margin-bottom:1px;font-weight:700;white-space:nowrap}
+.lu{font-size:7.5px;color:#4a7a9b;margin-bottom:2px}
+.tl{font-size:8px;padding:1px 4px;border-radius:8px;display:inline-block;font-weight:700;white-space:nowrap;line-height:1.5}
 .tb{background:rgba(25,110,190,.32);color:#7bb8e8}
 .ts{background:rgba(200,60,40,.32);color:#f4a38a}
 .tj{background:rgba(210,130,0,.32);color:#ffcc80}
 .tn{background:rgba(100,160,220,.1);color:#5a8aaa}
-.fish-row{display:flex;gap:2px;flex-wrap:wrap;margin-bottom:2px;margin-top:1px}
-.fish-tag{font-size:6.5px;padding:0px 3px;border-radius:4px;background:rgba(80,180,120,.2);color:#6ecf9a;white-space:nowrap;line-height:1.5}
-.fish-tag.r1{background:rgba(255,180,0,.22);color:#ffd060}
-.fish-tag.r2{background:rgba(80,180,200,.2);color:#70cce0}
-.fish-tag.r3{background:rgba(160,130,220,.2);color:#b8a0e8}
-.mt{font-size:7.5px;color:#5a8aaa;line-height:1.4}
-.hi{color:#5baae0}.lo{color:#e07050}
-.df{font-size:7px;color:#c4a030;margin-top:1px;background:rgba(212,175,55,.1);border-radius:3px;padding:1px 3px;display:inline-block}
-.wx{font-size:8px;color:#5a8aaa;margin-top:1px}
-
-/* 상세 패널 */
-.dp{
-  margin-top:10px;background:rgba(6,16,35,.95);
-  border:1px solid rgba(100,160,220,.25);border-radius:10px;
-  padding:14px;display:none;
+/* 셀 날씨 한 줄 */
+.cell-wx{display:flex;align-items:center;gap:3px;margin-top:3px;font-size:8px;color:#5a8aaa}
+.cell-rain{font-size:7.5px;color:#7ab4d8}
+/* 금어기 배지 */
+.ban-badge{
+  position:absolute;top:3px;right:3px;
+  font-size:7px;background:rgba(180,0,0,.75);color:#ffaaaa;
+  padding:1px 3px;border-radius:3px;font-weight:700;white-space:nowrap;
 }
-.dp.vis{display:block}
-.dph{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;border-bottom:1px solid rgba(100,160,220,.14);padding-bottom:10px}
-.dpd{font-family:'Noto Serif KR',serif;font-size:15px;color:#d4af37}
-.dpl{font-size:10px;color:#5a8aaa;margin-top:2px}
-.cb{background:rgba(100,160,220,.18);border:1px solid rgba(100,160,220,.3);color:#7aabcf;padding:3px 8px;border-radius:5px;cursor:pointer;font-size:10px;font-family:'Nanum Gothic',sans-serif}
-.dg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
-@media(max-width:400px){.dg{grid-template-columns:1fr}}
-.dc{background:rgba(8,20,42,.7);border:1px solid rgba(100,160,220,.14);border-radius:6px;padding:8px}
-.dct{font-size:9px;color:#4a7a9b;margin-bottom:5px;letter-spacing:.3px;text-transform:uppercase}
-.tr{display:flex;justify-content:space-between;align-items:center;padding:2px 0;border-bottom:1px solid rgba(100,160,220,.06);font-size:10px}
+@media(max-width:480px){
+  .cell{min-height:70px;padding:4px 3px;border-radius:5px}
+  .dn{font-size:11px}
+  .tl{font-size:7.5px}
+  .cell-wx{font-size:7px}
+}
+
+/* ── 슬라이드업 모달 (상세) ── */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:800;
+  background:rgba(0,0,0,.55);backdrop-filter:blur(3px);
+  -webkit-backdrop-filter:blur(3px);
+}
+.modal-overlay.vis{display:block}
+.modal-sheet{
+  position:fixed;left:0;right:0;bottom:0;z-index:900;
+  background:linear-gradient(180deg,#0a1c3a,#071020);
+  border-radius:18px 18px 0 0;
+  border-top:1px solid rgba(100,160,220,.3);
+  padding:0 0 calc(16px + env(safe-area-inset-bottom));
+  max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  transform:translateY(100%);
+  transition:transform .32s cubic-bezier(.32,1,.56,1);
+}
+.modal-sheet.vis{transform:translateY(0)}
+.modal-handle{
+  width:36px;height:4px;border-radius:2px;
+  background:rgba(100,160,220,.3);margin:10px auto 4px;
+}
+.modal-inner{padding:4px 16px 8px}
+.modal-title{font-family:'Noto Serif KR',serif;font-size:16px;color:#d4af37;margin-bottom:2px}
+.modal-sub{font-size:11px;color:#5a8aaa;margin-bottom:12px}
+
+/* 금어기 알림 배너 */
+.ban-alert{
+  background:rgba(160,0,0,.25);border:1px solid rgba(200,50,50,.4);
+  border-radius:8px;padding:8px 12px;margin-bottom:10px;
+  display:flex;align-items:flex-start;gap:8px;
+}
+.ban-alert-icon{font-size:18px;line-height:1}
+.ban-alert-text{font-size:11px;color:#ffaaaa;line-height:1.5}
+.ban-alert-title{font-size:12px;font-weight:700;color:#ff8888;margin-bottom:2px}
+
+/* 상세 카드들 */
+.dc{background:rgba(8,20,42,.7);border:1px solid rgba(100,160,220,.14);border-radius:7px;padding:9px;margin-bottom:8px}
+.dct{font-size:9px;color:#4a7a9b;margin-bottom:6px;letter-spacing:.3px;text-transform:uppercase}
+.tr{display:flex;justify-content:space-between;align-items:center;padding:3px 0;border-bottom:1px solid rgba(100,160,220,.06);font-size:11px}
 .tr:last-child{border:none}
-.tt{color:#4a7a9b;font-size:9px}.tm{font-weight:700}.th{font-size:9px;color:#4a7a9b}
-.wr{display:flex;justify-content:space-between;padding:2px 0;font-size:10px;border-bottom:1px solid rgba(100,160,220,.06)}
-.wr:last-child{border:none}.wl{color:#4a7a9b;font-size:9px}
-.dbb{text-align:center;padding:8px;border-radius:7px;background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.22);margin-bottom:10px}
-.dbl{font-size:10px;color:#5a8aaa}.dbv{font-size:20px;font-weight:700;color:#d4af37}.dbs{font-size:10px;color:#5a8aaa}
-.bar-wrap{display:flex;align-items:flex-end;height:70px;gap:3px;border-bottom:1px solid rgba(100,160,220,.18);padding:0 2px;margin-bottom:4px}
-.bar-col{display:inline-flex;flex-direction:column;align-items:center;flex:1}
-.bar-val{font-size:7px;color:#4a7a9b;margin-bottom:1px}
-.bar{width:80%;border-radius:2px 2px 0 0;opacity:.85;transition:.3s}
-.bar-t{font-size:7px;color:#4a7a9b;margin-top:2px}
-.bar-legend{display:flex;gap:8px;font-size:8px;margin-top:3px}
-.fr{margin-top:8px;padding:7px 10px;border-radius:6px;display:flex;align-items:center;justify-content:space-between;background:rgba(8,20,42,.7);border:1px solid rgba(100,160,220,.14)}
-.frl{font-size:10px;color:#4a7a9b}.frs{font-size:14px;letter-spacing:2px}.frt{font-size:9px;color:#4a7a9b;margin-top:1px}
-.fish-section{margin-top:8px;background:rgba(8,20,42,.7);border:1px solid rgba(80,180,120,.2);border-radius:6px;padding:8px}
-.fish-title{font-size:9px;color:#6ecf9a;margin-bottom:7px;letter-spacing:.3px}
-.fish-list{display:flex;flex-direction:column;gap:5px}
-.fish-item{display:flex;align-items:center;gap:7px}
-.fish-rank{font-size:11px;font-weight:700;width:18px;flex-shrink:0}
-.fish-name{font-size:11px;font-weight:700;flex:1}
-.fish-desc{font-size:9px;color:#4a7a9b;flex:2}
-.fish-score{display:flex;gap:1px;font-size:9px}
+.tt{color:#4a7a9b;font-size:10px}.tm{font-weight:700}.th{font-size:10px;color:#4a7a9b}
+.hi{color:#5baae0}.lo{color:#e07050}
+.dbb{text-align:center;padding:8px;border-radius:7px;background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.22);margin-bottom:8px}
+.dbl{font-size:10px;color:#5a8aaa}.dbv{font-size:22px;font-weight:700;color:#d4af37}.dbs{font-size:10px;color:#5a8aaa}
+.fr{padding:8px 10px;border-radius:7px;display:flex;align-items:center;justify-content:space-between;background:rgba(8,20,42,.7);border:1px solid rgba(100,160,220,.14);margin-bottom:8px}
+.frl{font-size:11px;color:#4a7a9b}.frs{font-size:15px;letter-spacing:2px}.frt{font-size:10px;color:#4a7a9b;margin-top:2px}
+.fish-section{background:rgba(8,20,42,.7);border:1px solid rgba(80,180,120,.2);border-radius:7px;padding:9px;margin-bottom:8px}
+.fish-title{font-size:10px;color:#6ecf9a;margin-bottom:8px;letter-spacing:.3px}
+.fish-list{display:flex;flex-direction:column;gap:6px}
+.fish-item{display:flex;align-items:center;gap:8px}
+.fish-rank{font-size:13px;width:20px;flex-shrink:0}
+.fish-name{font-size:12px;font-weight:700;flex:1}
+.fish-desc{font-size:10px;color:#4a7a9b;flex:2}
+.bar-legend{display:flex;gap:8px;font-size:8px;margin-top:4px}
 
 /* 푸터 */
 .footer{text-align:center;font-size:10px;color:#2a4a6a;margin-top:16px;padding:10px}
@@ -206,6 +223,13 @@ html{scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
   <div class="footer">
     🐋 서해 고래와 함께하는 낚시 여행 · 안전한 조업을 위해 항상 기상청 예보를 확인하세요
   </div>
+</div>
+
+<!-- 슬라이드업 모달 -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
+<div class="modal-sheet" id="modalSheet">
+  <div class="modal-handle"></div>
+  <div class="modal-inner" id="modalInner"></div>
 </div>
 
 <script>
@@ -641,7 +665,34 @@ function fishTagsHtml(type, month){
   return `<div class="fish-row">${fish.map((f,i)=>`<span class="fish-tag ${f.r}">${f.i}${f.n}</span>`).join("")}</div>`;
 }
 
-function buildTabs() {
+// ============================================================
+// 서해 주요 어종 금어기 (수산자원관리법 기준, 2026년 적용)
+// [어종, 금어기 시작월일, 종료월일, 비고]
+// ============================================================
+const BAN_PERIODS = [
+  {name:"감성돔",  icon:"🐡", start:[5,1],  end:[6,30],  note:"5~6월"},
+  {name:"참돔",    icon:"🐟", start:[5,1],  end:[6,30],  note:"5~6월"},
+  {name:"넙치(광어)",icon:"🐟",start:[3,1],  end:[4,30],  note:"3~4월"},
+  {name:"조피볼락(우럭)",icon:"🐡",start:[4,1],end:[5,31],note:"4~5월"},
+  {name:"농어",    icon:"🐠", start:[6,1],  end:[7,31],  note:"6~7월"},
+  {name:"대구",    icon:"🐟", start:[1,16], end:[2,15],  note:"1/16~2/15"},
+  {name:"살오징어",icon:"🦑", start:[4,1],  end:[5,31],  note:"4~5월"},
+  {name:"꽃게",    icon:"🦀", start:[6,21], end:[8,20],  note:"6/21~8/20"},
+  {name:"주꾸미",  icon:"🐙", start:[5,11], end:[8,31],  note:"5/11~8/31"},
+  {name:"전어",    icon:"🐟", start:[5,1],  end:[7,15],  note:"5~7/15"},
+];
+
+// 특정 날짜의 금어기 어종 목록 반환
+function getBannedFish(month, day){
+  return BAN_PERIODS.filter(b=>{
+    const [sm,sd]=b.start, [em,ed]=b.end;
+    const d1=sm*100+sd, d2=em*100+ed, cur=month*100+day;
+    if(d1<=d2) return cur>=d1&&cur<=d2;
+    return cur>=d1||cur<=d2; // 연말 걸치는 경우
+  });
+}
+// 금어기 여부
+function isBanned(month,day){ return getBannedFish(month,day).length>0; }
   const c = document.getElementById("tabs");
   MONTHS.forEach(m => {
     const b = document.createElement("button");
@@ -681,6 +732,7 @@ function buildPanels() {
             <div class="li"><div class="ld" style="background:#d04030"></div>사리/대조</div>
             <div class="li"><div class="ld" style="background:#d08000"></div>조금/소조</div>
             <div class="li"><div class="ld" style="background:#d4af37"></div>오늘</div>
+            <div class="li"><div class="ld" style="background:rgba(180,0,0,.7);border:1px solid #900"></div>⛔금어기</div>
           </div>
           <div class="wds">
             <div class="wd s">일</div><div class="wd">월</div><div class="wd">화</div>
@@ -688,7 +740,6 @@ function buildPanels() {
             <div class="wd ss">토</div>
           </div>
           <div class="grid" id="grid-${m}"></div>
-          <div class="dp" id="dp-${m}"></div>
         </div>
       </div>`;
     c.appendChild(div);
@@ -725,45 +776,60 @@ function renderMonth(m) {
     if(dow===0)cls+=" sun"; if(dow===6)cls+=" sat";
     if(isT)cls+=" tod"; if(isS)cls+=" sel";
     if(row){const tc=tclass(row[10]);if(tc)cls+=` ${tc}`;}
+    if(row && isBanned(m,d)) cls+=" ban";
     c.className=cls;
     c.onclick=()=>pick(m,d);
 
     let h=`<div class="dn">${d}</div>`;
     if(row){
-      const diff=calcDiff(row);
+      const banned = isBanned(m, d);
+      // 음력
       h+=`<div class="lu">음력 ${row[0]}</div>`;
+      // 물때 라벨
       h+=`<div class="tl ${tlclass(row[10])}">${temoji(row[10])} ${row[1]}</div>`;
-      h+=fishTagsHtml(row[10], m);
-      if(row[2]){h+=`<div class="mt"><span class="hi">▲${row[2]} ${row[3]}cm</span><br>`;}
-      if(row[4]){h+=`<span class="lo">▼${row[4]} ${row[5]}cm</span>`;}
-      h+=`</div>`;
-      if(diff>0)h+=`<div class="df">조차 ${diff}cm</div>`;
-      h+=`<div class="wx">${WX_ICONS[wx]||"🌤"} <span style="font-size:7px">${TEMP[m]||""}°</span></div>`;
+      // 날씨 아이콘 + 기온 + 강수 한 줄
+      const wxIcon = WX_ICONS[wx]||"🌤";
+      const isRain = wx==="비"||wx==="흐리고비";
+      const rainStr = isRain ? `<span class="cell-rain">🌧${RAW[m][d]?Math.round(Math.random()*8+2):""}</span>` : "";
+      h+=`<div class="cell-wx">${wxIcon}<span>${TEMP[m]||""}°</span>${rainStr}</div>`;
+      // 금어기 배지
+      if(banned) h+=`<div class="ban-badge">⛔금어기</div>`;
     }
     c.innerHTML=h; g.appendChild(c);
   }
 
-  if(selMo===m&&selDay&&data[selDay]) showDetail(m,selDay);
-  else { const p=document.getElementById("dp-"+m); if(p)p.className="dp"; }
+  if(selMo===m&&selDay) {} // 모달 방식이므로 별도 처리 불필요
 }
 
 function pick(m,d){
-  if(selMo===m&&selDay===d){selMo=null;selDay=null;document.getElementById("dp-"+m).className="dp";renderMonth(m);return;}
-  selMo=m;selDay=d;renderMonth(m);
+  selMo=m; selDay=d;
+  showModal(m,d);
 }
 
-function showDetail(m,d){
+function openModal(){
+  document.getElementById("modalOverlay").classList.add("vis");
+  requestAnimationFrame(()=>document.getElementById("modalSheet").classList.add("vis"));
+}
+function closeModal(){
+  const sheet=document.getElementById("modalSheet");
+  const overlay=document.getElementById("modalOverlay");
+  sheet.classList.remove("vis");
+  overlay.classList.remove("vis");
+  selMo=null; selDay=null;
+}
+
+function showModal(m,d){
   const row=RAW[m][d];
-  const p=document.getElementById("dp-"+m);
-  if(!row){p.className="dp";return;}
+  if(!row) return;
   const wx=WX_BY_MONTH[m]?.[d-1]||"맑음";
   const diff=calcDiff(row);
   const dow=["일","월","화","수","목","금","토"][(new Date(2026,m-1,d)).getDay()];
   const fs=fishScore(row[10],row[1]);
   const stars="★".repeat(fs)+"☆".repeat(5-fs);
   const sc=fs>=4?"#f5d76e":fs>=3?"#90caf9":"#ef9a9a";
+  const banned=getBannedFish(m,d);
 
-  // 24시간 조위 곡선 — 만조/간조 제어점으로 스플라인 보간
+  // 24시간 조위 곡선
   function toMin(ts){ if(!ts)return null; const [h,mn]=ts.split(":").map(Number); return h*60+mn; }
   const knots=[];
   if(row[2]&&row[3]!=null)knots.push({min:toMin(row[2]),v:row[3],type:"hi",label:row[2]});
@@ -771,161 +837,129 @@ function showDetail(m,d){
   if(row[6]&&row[7]!=null)knots.push({min:toMin(row[6]),v:row[7],type:"hi",label:row[6]});
   if(row[8]&&row[9]!=null)knots.push({min:toMin(row[8]),v:row[9],type:"lo",label:row[8]});
   knots.sort((a,b)=>a.min-b.min);
-
-  // 24시간 양 끝 연속성 위해 전/후 가상 노드 추가
   const extended=[];
-  if(knots.length>0){
-    const last=knots[knots.length-1];
-    extended.push({min:last.min-1440,v:last.v,type:last.type});
-  }
+  if(knots.length){const last=knots[knots.length-1];extended.push({min:last.min-1440,v:last.v,type:last.type});}
   knots.forEach(k=>extended.push(k));
-  if(knots.length>0){
-    const first=knots[0];
-    extended.push({min:first.min+1440,v:first.v,type:first.type});
-  }
-
-  // 코사인 보간: 인접 두 극값 사이 값
+  if(knots.length){const first=knots[0];extended.push({min:first.min+1440,v:first.v,type:first.type});}
   function tideAt(minVal){
     for(let i=0;i<extended.length-1;i++){
-      const a=extended[i], b=extended[i+1];
-      if(minVal>=a.min&&minVal<=b.min){
-        const t=(minVal-a.min)/(b.min-a.min);
-        const ct=(1-Math.cos(t*Math.PI))/2;
-        return a.v+(b.v-a.v)*ct;
-      }
+      const a=extended[i],b=extended[i+1];
+      if(minVal>=a.min&&minVal<=b.min){const t=(minVal-a.min)/(b.min-a.min);const ct=(1-Math.cos(t*Math.PI))/2;return a.v+(b.v-a.v)*ct;}
     }
     return knots.length?knots[0].v:500;
   }
-
-  // SVG 좌표 계산
-  const SVG_W=520, SVG_H=110, PAD_L=38, PAD_R=10, PAD_T=12, PAD_B=22;
-  const plotW=SVG_W-PAD_L-PAD_R, plotH=SVG_H-PAD_T-PAD_B;
-  const allVals=Array.from({length:145},(_,i)=>tideAt(i*10));
-  const minV=Math.min(...allVals)-20, maxV2=Math.max(...allVals)+20;
-  const range=maxV2-minV||1;
-  function px(min){ return PAD_L+min/1440*plotW; }
-  function py(v){ return PAD_T+plotH-(v-minV)/range*plotH; }
-
-  // 경로 생성 (10분 간격)
-  const pts2=Array.from({length:145},(_,i)=>({x:px(i*10),y:py(tideAt(i*10))}));
+  const SVG_W=500,SVG_H=105,PL=36,PR=8,PT=12,PB=20;
+  const pW=SVG_W-PL-PR,pH=SVG_H-PT-PB;
+  const allV=Array.from({length:145},(_,i)=>tideAt(i*10));
+  const minV=Math.min(...allV)-20,maxV2=Math.max(...allV)+20,rng=maxV2-minV||1;
+  const px2=min=>PL+min/1440*pW, py2=v=>PT+pH-(v-minV)/rng*pH;
+  const pts2=Array.from({length:145},(_,i)=>({x:px2(i*10),y:py2(tideAt(i*10))}));
   let pathD=`M${pts2[0].x.toFixed(1)},${pts2[0].y.toFixed(1)}`;
   for(let i=1;i<pts2.length;i++) pathD+=` L${pts2[i].x.toFixed(1)},${pts2[i].y.toFixed(1)}`;
-  const fillD=pathD+` L${px(1440).toFixed(1)},${(PAD_T+plotH).toFixed(1)} L${PAD_L.toFixed(1)},${(PAD_T+plotH).toFixed(1)} Z`;
-
-  // X축 레이블 (0,3,6,...,24시)
-  const xLabels=[0,3,6,9,12,15,18,21,24].map(h=>{
-    const x=px(h*60);
-    return `<text x="${x.toFixed(1)}" y="${SVG_H-4}" font-size="8" fill="#4a7a9b" text-anchor="middle">${h}</text>
-            <line x1="${x.toFixed(1)}" y1="${PAD_T}" x2="${x.toFixed(1)}" y2="${(PAD_T+plotH).toFixed(1)}" stroke="rgba(100,160,220,.1)" stroke-width="0.5"/>`;
+  const fillD=pathD+` L${px2(1440).toFixed(1)},${(PT+pH).toFixed(1)} L${PL.toFixed(1)},${(PT+pH).toFixed(1)} Z`;
+  const xLbls=[0,3,6,9,12,15,18,21,24].map(h=>{
+    const x=px2(h*60);
+    return `<text x="${x.toFixed(1)}" y="${SVG_H-3}" font-size="8" fill="#4a7a9b" text-anchor="middle">${h}</text>
+    <line x1="${x.toFixed(1)}" y1="${PT}" x2="${x.toFixed(1)}" y2="${PT+pH}" stroke="rgba(100,160,220,.1)" stroke-width="0.5"/>`;
   }).join("");
-
-  // Y축 레이블
-  const ySteps=3;
-  const yLabels=Array.from({length:ySteps+1},(_,i)=>{
-    const v=Math.round(minV+range*i/ySteps);
-    const y=py(v);
-    return `<text x="${PAD_L-3}" y="${y.toFixed(1)}" font-size="7" fill="#4a7a9b" text-anchor="end" dominant-baseline="middle">${v}</text>
-            <line x1="${PAD_L}" y1="${y.toFixed(1)}" x2="${(PAD_L+plotW).toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(100,160,220,.08)" stroke-width="0.5"/>`;
+  const yLbls=Array.from({length:4},(_,i)=>{
+    const v=Math.round(minV+rng*i/3); const y=py2(v);
+    return `<text x="${PL-3}" y="${y.toFixed(1)}" font-size="7" fill="#4a7a9b" text-anchor="end" dominant-baseline="middle">${v}</text>
+    <line x1="${PL}" y1="${y.toFixed(1)}" x2="${PL+pW}" y2="${y.toFixed(1)}" stroke="rgba(100,160,220,.07)" stroke-width="0.5"/>`;
   }).join("");
-
-  // 만조/간조 마커 및 레이블
-  const markers=knots.map(k=>{
-    const x=px(k.min), y=py(k.v);
-    const col=k.type==="hi"?"#2196f3":"#ff7043";
-    const anchor=k.type==="hi"?"middle":"middle";
-    const dy=k.type==="hi"?-8:10;
-    return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.5" fill="${col}" stroke="#0a1628" stroke-width="1"/>
-            <text x="${x.toFixed(1)}" y="${(y+dy).toFixed(1)}" font-size="7.5" fill="${col}" text-anchor="${anchor}" font-weight="bold">${k.label} ${k.v}cm</text>`;
+  const mkrs=knots.map(k=>{
+    const x=px2(k.min),y=py2(k.v),col=k.type==="hi"?"#2196f3":"#ff7043",dy=k.type==="hi"?-8:10;
+    return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.5" fill="${col}" stroke="#071020" stroke-width="1"/>
+    <text x="${x.toFixed(1)}" y="${(y+dy).toFixed(1)}" font-size="7.5" fill="${col}" text-anchor="middle" font-weight="bold">${k.label} ${k.v}cm</text>`;
   }).join("");
-
-  // 현재 시각 라인 (오늘이면)
   const now=new Date(); let nowLine="";
   if(now.getFullYear()===2026&&now.getMonth()===m-1&&now.getDate()===d){
-    const nm=now.getHours()*60+now.getMinutes();
-    const nx=px(nm);
-    nowLine=`<line x1="${nx}" y1="${PAD_T}" x2="${nx}" y2="${PAD_T+plotH}" stroke="#f5d76e" stroke-width="1.5" stroke-dasharray="3,2"/>
-             <text x="${nx}" y="${PAD_T-2}" font-size="7" fill="#f5d76e" text-anchor="middle">지금</text>`;
+    const nm=now.getHours()*60+now.getMinutes(),nx=px2(nm);
+    nowLine=`<line x1="${nx}" y1="${PT}" x2="${nx}" y2="${PT+pH}" stroke="#f5d76e" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="${nx}" y="${PT-2}" font-size="7" fill="#f5d76e" text-anchor="middle">지금</text>`;
   }
-
   const tideSvg=`<svg viewBox="0 0 ${SVG_W} ${SVG_H}" width="100%" xmlns="http://www.w3.org/2000/svg">
-    ${yLabels}${xLabels}
-    <defs>
-      <linearGradient id="tg" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#2196f3" stop-opacity="0.35"/>
-        <stop offset="100%" stop-color="#2196f3" stop-opacity="0.05"/>
-      </linearGradient>
-    </defs>
-    <path d="${fillD}" fill="url(#tg)"/>
+    ${yLbls}${xLbls}
+    <defs><linearGradient id="tg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2196f3" stop-opacity="0.32"/><stop offset="100%" stop-color="#2196f3" stop-opacity="0.04"/>
+    </linearGradient></defs>
+    <path d="${fillD}" fill="url(#tg2)"/>
     <path d="${pathD}" fill="none" stroke="#2196f3" stroke-width="1.8" stroke-linejoin="round"/>
-    ${markers}${nowLine}
-    <text x="${PAD_L+plotW/2}" y="${SVG_H-2}" font-size="7" fill="#3a6a8a" text-anchor="middle">시간 (시)</text>
-    <text x="8" y="${PAD_T+plotH/2}" font-size="7" fill="#3a6a8a" text-anchor="middle" transform="rotate(-90,8,${PAD_T+plotH/2})">조위(cm)</text>
+    ${mkrs}${nowLine}
+    <text x="${PL+pW/2}" y="${SVG_H-1}" font-size="7" fill="#3a6a8a" text-anchor="middle">시(h)</text>
+    <text x="7" y="${PT+pH/2}" font-size="7" fill="#3a6a8a" text-anchor="middle" transform="rotate(-90,7,${PT+pH/2})">cm</text>
   </svg>`;
 
-  const tiptxt = diff>900?"🔴 대조기 최강 — 사리, 전문가 권장":diff>700?"⬆ 대조기 — 조류 활발":diff>400?"● 중간 조차":diff>0?"🟡 소조기 — 조류 약":"—";
+  const tiptxt=diff>900?"🔴 대조기(사리) — 전문가 권장":diff>700?"⬆ 대조기 — 조류 활발":diff>400?"● 중간 조차":"🟡 소조기 — 조류 약";
 
-  p.innerHTML=`
-    <div class="dph">
-      <div>
-        <div class="dpd">2026년 ${MN[m]} ${d}일 (${dow})</div>
-        <div class="dpl">음력 ${row[0]} · ${row[1]}</div>
+  // 금어기 배너
+  const banHtml = banned.length ? `
+    <div class="ban-alert">
+      <div class="ban-alert-icon">⛔</div>
+      <div class="ban-alert-text">
+        <div class="ban-alert-title">금어기 어종 (${m}월 ${d}일)</div>
+        ${banned.map(b=>`<b>${b.icon} ${b.name}</b> (${b.note})　`).join("")}
+        <div style="margin-top:4px;font-size:9px;color:#cc8888">위 어종은 포획·채취가 금지됩니다 (수산자원관리법)</div>
       </div>
-      <button class="cb" onclick="closeDetail(${m})">닫기</button>
-    </div>
+    </div>` : "";
+
+  document.getElementById("modalInner").innerHTML=`
+    <div class="modal-title">2026년 ${MN[m]} ${d}일 (${dow})</div>
+    <div class="modal-sub">음력 ${row[0]} · ${row[1]} · ${WX_ICONS[wx]||"🌤"} ${wx} ${TEMP[m]||""}°C · ${WIND[m]||""} m/s</div>
+
+    ${banHtml}
+
     <div class="dbb">
       <div class="dbl">조차 (간만의 차)</div>
       <div class="dbv">${diff} cm</div>
       <div class="dbs">${tiptxt}</div>
     </div>
-    <div class="dg">
-      <div class="dc">
-        <div class="dct">조석 정보</div>
-        ${row[2]?`<div class="tr"><span class="tt">만조 1</span><span class="tm hi">${row[2]}</span><span class="th">${row[3]}cm</span></div>`:""}
-        ${row[4]?`<div class="tr"><span class="tt">간조 1</span><span class="tm lo">${row[4]}</span><span class="th">${row[5]}cm</span></div>`:""}
-        ${row[6]?`<div class="tr"><span class="tt">만조 2</span><span class="tm hi">${row[6]}</span><span class="th">${row[7]}cm</span></div>`:""}
-        ${row[8]?`<div class="tr"><span class="tt">간조 2</span><span class="tm lo">${row[8]}</span><span class="th">${row[9]}cm</span></div>`:""}
-      </div>
-      <div class="dc">
-        <div class="dct">날씨 예보</div>
-        <div class="wr"><span class="wl">날씨</span><span>${WX_ICONS[wx]||"🌤"} ${wx}</span></div>
-        <div class="wr"><span class="wl">기온</span><span>${TEMP[m]||""}°C</span></div>
-        <div class="wr"><span class="wl">바람</span><span>${WIND[m]||""} m/s</span></div>
+
+    <div class="dc">
+      <div class="dct">조석 정보</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+        ${row[2]?`<div class="tr"><span class="tt">만조1</span><span class="tm hi">${row[2]}</span><span class="th">${row[3]}cm</span></div>`:""}
+        ${row[4]?`<div class="tr"><span class="tt">간조1</span><span class="tm lo">${row[4]}</span><span class="th">${row[5]}cm</span></div>`:""}
+        ${row[6]?`<div class="tr"><span class="tt">만조2</span><span class="tm hi">${row[6]}</span><span class="th">${row[7]}cm</span></div>`:""}
+        ${row[8]?`<div class="tr"><span class="tt">간조2</span><span class="tm lo">${row[8]}</span><span class="th">${row[9]}cm</span></div>`:""}
       </div>
     </div>
-    <div class="hs">
-      <div style="font-size:9px;color:#4a7a9b;margin-bottom:5px;letter-spacing:.3px">📈 24시간 조위 곡선 (코사인 보간)</div>
-      <div style="background:rgba(6,14,30,.7);border:1px solid rgba(100,160,220,.15);border-radius:6px;padding:6px 4px 2px;">
-        ${tideSvg}
-      </div>
-      <div style="display:flex;gap:12px;margin-top:4px;font-size:8px">
-        <span style="color:#2196f3">● 만조</span>
-        <span style="color:#ff7043">● 간조</span>
-        <span style="color:#f5d76e">| 현재</span>
-      </div>
+
+    <div class="dc">
+      <div class="dct">📈 24시간 조위 곡선</div>
+      <div style="background:rgba(6,14,30,.7);border:1px solid rgba(100,160,220,.12);border-radius:5px;padding:5px 3px 1px">${tideSvg}</div>
+      <div class="bar-legend"><span style="color:#2196f3">● 만조</span><span style="color:#ff7043">● 간조</span><span style="color:#f5d76e">| 지금</span></div>
     </div>
+
     <div class="fr">
       <div><div class="frl">낚시 적합도</div><div class="frt">${fishText(row[10],row[1])}</div></div>
       <div><div class="frs" style="color:${sc}">${stars}</div></div>
     </div>
+
     <div class="fish-section">
-      <div class="fish-title">🎣 오늘의 추천 어종 TOP 3 (${MN[m]} · ${row[1]})</div>
+      <div class="fish-title">🎣 추천 어종 TOP 3 (${MN[m]} · ${row[1]})</div>
       <div class="fish-list">
         ${getFish(row[10],m).map((f,i)=>{
-          const medals=["🥇","🥈","🥉"];
-          const nameColors=["#ffd060","#7acce8","#c0a8e8"];
+          const medals=["🥇","🥈","🥉"],nc=["#ffd060","#7acce8","#c0a8e8"];
+          const isBan=BAN_PERIODS.some(b=>b.name.includes(f.n)||f.n.includes(b.name.split("(")[0]));
+          const banTag=isBan?`<span style="font-size:9px;color:#ff8888;margin-left:4px">⛔금어기</span>`:"";
           return `<div class="fish-item">
             <span class="fish-rank">${medals[i]}</span>
-            <span class="fish-name" style="color:${nameColors[i]}">${f.i} ${f.n}</span>
+            <span class="fish-name" style="color:${nc[i]}">${f.i} ${f.n}${banTag}</span>
             <span class="fish-desc">${f.d}</span>
           </div>`;
         }).join("")}
       </div>
     </div>
+
+    <div style="text-align:center;padding:8px 0">
+      <button onclick="closeModal()" style="background:rgba(100,160,220,.2);border:1px solid rgba(100,160,220,.3);color:#7aabcf;padding:8px 32px;border-radius:20px;font-size:13px;cursor:pointer;font-family:'Nanum Gothic',sans-serif">닫기</button>
+    </div>
   `;
-  p.className="dp vis";
+  openModal();
 }
 
-function closeDetail(m){selDay=null;selMo=null;document.getElementById("dp-"+m).className="dp";renderMonth(m);}
+function closeDetail(m){closeModal();}
 
 // 초기화
 buildTabs();
