@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>영종도 K세븐호 예약</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Apple SD Gothic Neo',sans-serif;
+    background:#071020;color:#e8f4fd;
+    min-height:100vh;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    padding:20px;
+  }
+  .card{
+    background:linear-gradient(135deg,rgba(13,37,69,.95),rgba(20,60,100,.9));
+    border:1px solid rgba(100,160,220,.25);border-radius:16px;
+    padding:28px 24px;max-width:360px;width:100%;text-align:center;
+  }
+  .icon{font-size:48px;margin-bottom:12px}
+  .title{font-size:18px;font-weight:700;color:#d4af37;margin-bottom:6px}
+  .date-badge{
+    display:inline-block;
+    background:rgba(33,150,243,.2);border:1px solid rgba(33,150,243,.4);
+    color:#7bb8e8;font-size:15px;font-weight:700;
+    padding:6px 18px;border-radius:20px;margin:10px 0 16px;
+  }
+  .desc{font-size:12px;color:#7aabcf;line-height:1.6;margin-bottom:20px}
+  .btn-go{
+    display:block;width:100%;
+    background:linear-gradient(135deg,rgba(30,140,80,.9),rgba(20,110,60,.95));
+    border:1px solid rgba(60,200,120,.4);color:#a0ffcc;
+    padding:13px;border-radius:12px;font-size:15px;font-weight:700;
+    text-decoration:none;margin-bottom:10px;
+    box-shadow:0 2px 12px rgba(30,140,80,.3);
+  }
+  .btn-back{
+    display:block;width:100%;
+    background:rgba(100,160,220,.15);border:1px solid rgba(100,160,220,.25);
+    color:#7aabcf;padding:10px;border-radius:12px;
+    font-size:13px;text-decoration:none;cursor:pointer;
+  }
+  .note{font-size:10px;color:#3a6a8a;margin-top:16px;line-height:1.5}
+  .steps{
+    background:rgba(6,14,30,.6);border:1px solid rgba(100,160,220,.15);
+    border-radius:8px;padding:12px;margin-bottom:16px;text-align:left;
+  }
+  .step{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:11px;color:#7aabcf}
+  .step:last-child{margin-bottom:0}
+  .step-num{
+    background:rgba(33,150,243,.3);color:#7bb8e8;
+    width:18px;height:18px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="icon">🎣</div>
+  <div class="title">영종도 K세븐호 예약</div>
+  <div class="date-badge" id="dateBadge">날짜 확인 중...</div>
+  <div class="desc">아래 버튼을 탭하면 예약 페이지로 이동합니다.<br>이동 후 날짜를 직접 선택해 주세요.</div>
+
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><span>아래 버튼 탭 → 예약 페이지 이동</span></div>
+    <div class="step"><div class="step-num">2</div><span id="stepMonth">해당 월 탭 선택</span></div>
+    <div class="step"><div class="step-num">3</div><span id="stepDay">날짜 숫자 선택</span></div>
+    <div class="step"><div class="step-num">4</div><span>출항 일정 확인 후 예약</span></div>
+  </div>
+
+  <a class="btn-go" id="btnGo" href="https://7.sunsang24.com/ship/schedule_fleet" target="_blank" rel="noopener">
+    🚢 예약 페이지로 이동
+  </a>
+  <a class="btn-back" onclick="history.back()">← 물때달력으로 돌아가기</a>
+
+  <div class="note">
+    ※ 영종도 K세븐호 · 세븐호 선상낚시<br>
+    📍 인천 중구 잠진도길 11<br>
+    📞 010-7550-3577
+  </div>
+</div>
+
+<script>
+const params = new URLSearchParams(location.search);
+const dateStr = params.get('date'); // YYYY-MM-DD
+
+if(dateStr){
+  const [y,m,d] = dateStr.split('-').map(Number);
+  const months = ['','1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+  document.getElementById('dateBadge').textContent = `${y}년 ${months[m]} ${d}일`;
+  document.getElementById('stepMonth').textContent = `상단에서 "${months[m]}" 탭 선택`;
+  document.getElementById('stepDay').textContent = `날짜 "${d}" 숫자 탭`;
+}
+</script>
+</body>
+</html>

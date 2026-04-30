@@ -937,15 +937,15 @@ function showModal(m,d){
     </div>
 
     <div style="text-align:center;padding:8px 0">
-      <a href="https://7.sunsang24.com/ship/schedule_fleet" target="_blank" rel="noopener"
-        style="display:inline-flex;align-items:center;gap:8px;
+      <a href="book.html?date=2026-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}" target="_blank" rel="noopener"
+        style="display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;
                background:linear-gradient(135deg,rgba(30,140,80,.85),rgba(20,110,60,.9));
                border:1px solid rgba(60,200,120,.4);color:#a0ffcc;
-               padding:10px 22px;border-radius:20px;font-size:13px;font-weight:700;
+               padding:12px 22px;border-radius:12px;font-size:14px;font-weight:700;
                text-decoration:none;font-family:'Nanum Gothic',sans-serif;
                margin-bottom:10px;box-shadow:0 2px 12px rgba(30,140,80,.3)">
-        🎣 영종도 K세븐호 당일 잔여석 확인
-      </a><br>
+        🚢 영종도 K세븐호 잔여석 · 예약하기
+      </a>
       <button onclick="closeModal()" style="background:rgba(100,160,220,.2);border:1px solid rgba(100,160,220,.3);color:#7aabcf;padding:8px 32px;border-radius:20px;font-size:13px;cursor:pointer;font-family:'Nanum Gothic',sans-serif">닫기</button>
     </div>
   `;
