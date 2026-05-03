@@ -109,7 +109,7 @@ html{scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
 .cell{
   background:rgba(10,28,58,.82);
   border:1px solid rgba(100,160,220,.1);
-  border-radius:6px;padding:5px 4px;min-height:76px;
+  border-radius:6px;padding:5px 4px;min-height:88px;
   cursor:pointer;transition:.15s;overflow:hidden;position:relative;
   -webkit-user-select:none;user-select:none;
 }
@@ -131,6 +131,14 @@ html{scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
 .ts{background:rgba(200,60,40,.32);color:#f4a38a}
 .tj{background:rgba(210,130,0,.32);color:#ffcc80}
 .tn{background:rgba(100,160,220,.1);color:#5a8aaa}
+/* 어종 뱃지 */
+.fbadge{font-size:7px;padding:1px 4px;border-radius:4px;margin-top:2px;display:inline-block;font-weight:700;white-space:nowrap;line-height:1.6}
+.fb-gwangeo{background:rgba(33,150,243,.22);color:#90caf9}
+.fb-jukkumi{background:rgba(255,140,0,.22);color:#ffcc80}
+.fb-gapo{background:rgba(180,100,255,.22);color:#ce93d8}
+.fb-sari{background:rgba(255,80,60,.18);color:#ff8a80}
+@media(max-width:360px){.fbadge{font-size:6.5px}}
+
 /* 셀 날씨 한 줄 */
 .cell-wx{display:flex;align-items:center;gap:3px;margin-top:3px;font-size:8px;color:#5a8aaa}
 .cell-rain{font-size:7.5px;color:#7ab4d8}
@@ -647,27 +655,142 @@ const FISH_DB = {
   }
 };
 
-// 물때 타입·월 → 추천 어종 3종 반환
+// ============================================================
+// 어종별 최적 물때 (실제 조황 기반)
+// 대광어 다운샷 + 농어 외수질: 3~6물, 10~11물 (조류 살아나거나 죽어가는 시기)
+// 쭈꾸미·갑오징어: 조금·무시·1~2물 (조류 약할 때)
+// ============================================================
+function getMulNum(mulName){
+  if(!mulName) return -1;
+  const m = mulName.match(/^(\d+)물/);
+  return m ? parseInt(m[1]) : -1;
+}
+
+function getFishingType(mulName, month){
+  const n = getMulNum(mulName);
+  const isSari = mulName.includes('사리') || mulName.includes('망사리');
+  const isJogeum = mulName.includes('조금') || mulName.includes('무시');
+
+  // 쭈꾸미·갑오징어 시즌 (월 기반)
+  const jukkumiSeason = [9,10].includes(month);      // 가을 쭈꾸미
+  const gapoSeason    = [4,5,6].includes(month);     // 봄 갑오징어
+
+  // 조류 약한 구간 (조금·무시·1~2물) → 쭈꾸미·갑오징어
+  if(isJogeum || n===1 || n===2){
+    if(jukkumiSeason) return 'jukkumi';
+    if(gapoSeason)    return 'gapo';
+    return 'weak'; // 시즌 아님
+  }
+
+  // 3~6물, 10~11물 → 대광어 + 농어
+  if((n>=3 && n<=6) || n===10 || n===11){
+    return 'gwangeo';
+  }
+
+  // 사리(7~9물) → 농어 강조
+  if(isSari || (n>=7 && n<=9)){
+    return 'sari';
+  }
+
+  // 12~13물 → 하강기
+  if(n>=12 && n<=14){
+    return 'drop';
+  }
+
+  return 'normal';
+}
+
+// 달력 셀용 어종 뱃지 HTML
+function getFishBadge(mulName, month){
+  const ft = getFishingType(mulName, month);
+  const badges = {
+    gwangeo: `<div class="fbadge fb-gwangeo">🐟대광어 🐠농어</div>`,
+    jukkumi: `<div class="fbadge fb-jukkumi">🐙쭈꾸미</div>`,
+    gapo:    `<div class="fbadge fb-gapo">🦑갑오징어</div>`,
+    sari:    `<div class="fbadge fb-sari">🐠농어(강조류)</div>`,
+    weak:    ``,
+    drop:    ``,
+    normal:  ``,
+  };
+  return badges[ft] || '';
+}
+
+// 모달용 어종 상세 카드
+function getFishCard(mulName, month){
+  const ft = getFishingType(mulName, month);
+  const n = getMulNum(mulName);
+
+  const cards = {
+    gwangeo: {
+      title:"🐟 대광어 다운샷 · 🐠 농어 외수질",
+      color:"rgba(33,150,243,.15)",
+      border:"rgba(33,150,243,.4)",
+      items:[
+        {icon:"🐟", name:"대광어 다운샷", tip:`조류가 ${n>=10?"죽어가는":"살아나는"} ${n}물 — 채비 바닥 안착 최적`},
+        {icon:"🐠", name:"농어 외수질",   tip:"적당한 조류에 베이트피시 집결, 입질 활발"},
+        {icon:"⏰", name:"추천 시간대",   tip:"아침 피딩(출항~9시) · 저녁 피딩(16~18시) · 간조/만조 전후"},
+      ]
+    },
+    jukkumi: {
+      title:"🐙 쭈꾸미 (가을 시즌)",
+      color:"rgba(255,140,0,.15)",
+      border:"rgba(255,140,0,.4)",
+      items:[
+        {icon:"🐙", name:"쭈꾸미",      tip:"조류 약한 구간 — 에기 바닥 안착, 갯벌 주변 활성"},
+        {icon:"📍", name:"포인트",       tip:"수심 5~15m 모래+뻘 혼합 지형"},
+        {icon:"⏰", name:"추천 시간대", tip:"간조 전후 2시간이 피크타임"},
+      ]
+    },
+    gapo: {
+      title:"🦑 갑오징어 (봄 시즌)",
+      color:"rgba(180,100,255,.15)",
+      border:"rgba(180,100,255,.4)",
+      items:[
+        {icon:"🦑", name:"갑오징어",    tip:"조류 약한 구간 — 느린 에기 액션 효과적"},
+        {icon:"📍", name:"포인트",       tip:"수심 10~25m 암초·모래 경계면"},
+        {icon:"⏰", name:"추천 시간대", tip:"조금 전후 만조 시간대"},
+      ]
+    },
+    sari: {
+      title:"🐠 농어 외수질 (강한 조류)",
+      color:"rgba(255,80,60,.12)",
+      border:"rgba(255,80,60,.35)",
+      items:[
+        {icon:"🐠", name:"농어",         tip:"강한 조류에 베이트피시 집결 — 표층 공략"},
+        {icon:"⚠️", name:"채비 주의",   tip:"사리 조류는 매우 강함 — 무거운 싱커 필요"},
+        {icon:"⏰", name:"추천 시간대", tip:"만조/간조 전후 1시간 슬랙워터"},
+      ]
+    },
+    weak:   null,
+    drop:   null,
+    normal: null,
+  };
+
+  const card = cards[ft];
+  if(!card) return '';
+
+  return `
+    <div style="background:${card.color};border:1px solid ${card.border};border-radius:8px;padding:10px;margin-bottom:8px">
+      <div style="font-size:11px;font-weight:700;color:#e8f4fd;margin-bottom:8px">${card.title}</div>
+      ${card.items.map(it=>`
+        <div style="display:flex;gap:8px;margin-bottom:5px;align-items:flex-start">
+          <span style="font-size:14px;flex-shrink:0">${it.icon}</span>
+          <div>
+            <div style="font-size:11px;font-weight:700;color:#d4d4d4">${it.name}</div>
+            <div style="font-size:10px;color:#7aabcf">${it.tip}</div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+}
+
+// 물때 타입·월 → 추천 어종 3종 반환 (기존 호환용)
 function getFish(type, month) {
   const base = FISH_DB.base[type] || FISH_DB.base.n;
   const seas = FISH_DB.season[month] || [];
-  // 시즌 어종을 1위로, 나머지는 base에서 채우되 중복 제거
   const result = [];
-  for(const s of seas){
-    if(result.length>=3) break;
-    result.push(s);
-  }
-  for(const b of base){
-    if(result.length>=3) break;
-    if(!result.find(r=>r.n===b.n)) result.push(b);
-  }
+  for(const s of seas){ if(result.length>=3) break; result.push(s); }
+  for(const b of base){ if(result.length>=3) break; if(!result.find(r=>r.n===b.n)) result.push(b); }
   return result.slice(0,3);
-}
-
-// 달력 셀에 들어갈 축약 어종 태그 HTML
-function fishTagsHtml(type, month){
-  const fish = getFish(type, month);
-  return `<div class="fish-row">${fish.map((f,i)=>`<span class="fish-tag ${f.r}">${f.i}${f.n}</span>`).join("")}</div>`;
 }
 
 // ============================================================
@@ -739,6 +862,9 @@ function buildPanels() {
             <div class="li"><div class="ld" style="background:#d04030"></div>사리/대조</div>
             <div class="li"><div class="ld" style="background:#d08000"></div>조금/소조</div>
             <div class="li"><div class="ld" style="background:#d4af37"></div>오늘</div>
+            <div class="li"><span style="font-size:9px;background:rgba(33,150,243,.22);color:#90caf9;padding:1px 4px;border-radius:3px">🐟대광어·농어</span></div>
+            <div class="li"><span style="font-size:9px;background:rgba(255,140,0,.22);color:#ffcc80;padding:1px 4px;border-radius:3px">🐙쭈꾸미</span></div>
+            <div class="li"><span style="font-size:9px;background:rgba(180,100,255,.22);color:#ce93d8;padding:1px 4px;border-radius:3px">🦑갑오징어</span></div>
           </div>
           <div class="wds">
             <div class="wd s">일</div><div class="wd">월</div><div class="wd">화</div>
@@ -789,6 +915,7 @@ function renderMonth(m) {
     if(row){
       h+=`<div class="lu">음력 ${row[0]}</div>`;
       h+=`<div class="tl ${tlclass(row[10])}">${temoji(row[10])} ${row[1]}</div>`;
+      h+=getFishBadge(row[1], m);
       const wxIcon = WX_ICONS[wx]||"🌤";
       const isRain = wx==="비"||wx==="흐리고비";
       const rainStr = isRain ? `<span class="cell-rain"> 🌧</span>` : "";
@@ -923,17 +1050,8 @@ function showModal(m,d){
     </div>
 
     <div class="fish-section">
-      <div class="fish-title">🎣 추천 어종 TOP 3 (${MN[m]} · ${row[1]})</div>
-      <div class="fish-list">
-        ${getFish(row[10],m).map((f,i)=>{
-          const medals=["🥇","🥈","🥉"],nc=["#ffd060","#7acce8","#c0a8e8"];
-          return `<div class="fish-item">
-            <span class="fish-rank">${medals[i]}</span>
-            <span class="fish-name" style="color:${nc[i]}">${f.i} ${f.n}</span>
-            <span class="fish-desc">${f.d}</span>
-          </div>`;
-        }).join("")}
-      </div>
+      <div class="fish-title">🎣 어종별 최적 물때 가이드</div>
+      ${getFishCard(row[1], m)}
     </div>
 
     <div style="text-align:center;padding:8px 0">
